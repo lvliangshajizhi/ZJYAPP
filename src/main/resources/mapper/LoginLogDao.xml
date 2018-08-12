@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tww.myproject.dao.LoginLogDao">
+    <select id="queryLoginLogs" resultType="com.tww.myproject.entity.LoginLog">
+        SELECT ID,UserId,Login_Time,MobileName,MobileNum
+        FROM  login_log
+        WHERE  UserId=#{userId}
+    </select>
+    <insert id="insertLoginLog" useGeneratedKeys="true" keyProperty="id" keyColumn="ID"
+            parameterType="com.tww.myproject.entity.LoginLog">
+        INSERT  INTO
+        login_log(ID,UserId,Login_Time,MobileName,MobileNum)
+        VALUES
+        (#{id},#{userId},#{loginTime},#{mobileName},#{mobileNum})
+    </insert>
+</mapper>

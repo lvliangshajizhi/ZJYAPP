@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tww.myproject.dao.UserInfoDao" >
+    <select id="queryUserInfo" resultType="com.tww.myproject.entity.UserInfo">
+          SELECT UserID,Username,Login_name,Login_pwd,Phone,
+             Isdel,CreateTime,DelTime,Birthday,Sex,Photo
+          FROM userinfo
+          WHERE 1=1
+           <if test="isdel!=null"> and Isdel=#{isdel}</if>
+           <if test="loginName!=null and loginName!=''"> and Login_name=#{loginName}</if>
+           <if test="loginPwd!=null and loginPwd!=''"> and Login_pwd=#{loginPwd}</if>
+
+    </select>
+    <insert id="insertUserInfo" parameterType="com.tww.myproject.entity.UserInfo">
+           INSERT INTO
+           userinfo(UserID,Username,Login_name,Login_pwd,Phone,
+             Isdel,CreateTime,DelTime,Birthday,Sex,Photo)
+            VALUES
+            (#{userId},#{userName},#{loginName},#{loginPwd},#{phone},#{isDel},#{createTime},#{delTime},#{birthday},#{sex},#{photo})
+    </insert>
+    <update id="updateUserInfo" parameterType="com.tww.myproject.entity.UserInfo">
+          UPDATE  userinfo
+          <set>
+              <if test="userId!=null and userId!=''">UserID=#{userId,jdbcType=VARCHAR},</if>
+              <if test="userName!=null and userName!=''">Username=#{userName,jdbcType=VARCHAR},</if>
+              <if test="loginName!=null and loginName!=''">Login_name=#{loginName,jdbcType=VARCHAR},</if>
+              <if test="loginPwd!=null and loginPwd!=''">Login_pwd=#{loginPwd,jdbcType=VARCHAR},</if>
+              <if test="phone!=null and phone!=''">Phone=#{phone,jdbcType=VARCHAR},</if>
+              <if test="isDel!=null">Isdel=#{isDel,jdbcType=BIT},</if>
+              CreateTime=#{createTime,jdbcType=DATE},
+              DelTime=#{delTime,jdbcType=DATE},
+              Birthday=#{birthday,jdbcType=DATE},
+              <if test="sex!=null">Sex=#{sex,jdbcType=BIT},</if>
+              <if test="photo!=null and photo!=''">Photo=#{photo,jdbcType=VARCHAR}</if>
+          </set>
+          WHERE
+              UserID=#{userId}
+    </update>
+    <update id="deleteUserInfo">
+        UPDATE  userinfo
+        <set>
+            Isdel=TRUE
+        </set>
+        WHERE  UserID=#{userId}
+    </update>
+</mapper>
